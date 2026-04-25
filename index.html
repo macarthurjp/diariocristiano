@@ -1117,12 +1117,16 @@
         justify-content: center;
       }
 
-      .header-inner > div:last-child {
-        justify-content: flex-end !important;
-        align-items: center;
-        gap: 10px;
-        width: 100%;
-      }
+      .header-actions {
+  justify-content: flex-end !important;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.header-actions.logged-in {
+  justify-content: space-between !important;
+}
 
       .header-inner .btn-primary {
         justify-content: center;
@@ -1238,10 +1242,9 @@
       }
 
       .header-inner,
-      .header-inner > div:last-child {
-        overflow: visible;
-      }
-    }
+.header-actions {
+  overflow: visible;
+}
   </style>
 </head>
 <body>
@@ -1260,7 +1263,7 @@
             <p>Devocionales Diarios</p>
           </div>
         </a>
-        <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap; justify-content:flex-end;">
+        <div id="headerActions" class="header-actions" style="display:flex; align-items:center; gap:12px; flex-wrap:wrap; justify-content:flex-end;">
   <div id="userBox" class="user-pill" tabindex="0">
   <img id="userAvatar" alt="Foto del publisher"
     style="width:36px; height:36px; border-radius:50%; object-fit:cover; border:2px solid #E0BE93; flex-shrink:0;" />
@@ -1610,8 +1613,9 @@ const heroTagsInput = document.getElementById("heroTagsInput");
 const heroModeSelect = document.getElementById("heroModeSelect");
 const heroDailyInput = document.getElementById("heroDailyInput");
 const saveHeroSettingsBtn = document.getElementById("saveHeroSettingsBtn");
-
-  function todayISO() {
+const headerActions = document.getElementById("headerActions");
+  
+function todayISO() {
     return new Date().toISOString().split("T")[0];
   }
 
@@ -2007,6 +2011,7 @@ function resetEditor() {
       userBox.classList.remove("menu-left", "menu-center", "menu-right", "align-right");
       updateUserMenuDirection();
       loginBtn.style.display = "none";
+      headerActions.classList.add("logged-in");
       userAvatar.src = user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.displayName || "U")}`;
       userName.textContent = user.displayName || user.email || "Usuario";
       authNotice.style.display = "none";
@@ -2053,6 +2058,7 @@ function resetEditor() {
       userBox.classList.remove("open");
       userBox.classList.remove("menu-left", "menu-center", "menu-right", "align-right");
       loginBtn.style.display = "inline-flex";
+      headerActions.classList.remove("logged-in");
       openFormBtn.style.display = "none";
       requestAccessBtn.style.display = "none";
       renderCards();
