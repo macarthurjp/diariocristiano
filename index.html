@@ -1,0 +1,2572 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Diario Cristiano</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at top, rgba(200,169,126,0.18), transparent 32%),
+        linear-gradient(180deg, #FCFAF7 0%, #F7F0E7 100%);
+      font-family: 'Georgia', 'Times New Roman', serif;
+      color: #3D2B1A;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: -25%;
+      pointer-events: none;
+      user-select: none;
+      z-index: 0;
+      opacity: 0.58;
+      transform: rotate(-16deg);
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='360' height='220' viewBox='0 0 360 220'%3E%3Ctext x='18' y='70' fill='%237C4A1B' fill-opacity='0.08' font-family='Georgia, serif' font-size='28' font-weight='700' letter-spacing='5'%3EDIARIO%3C/text%3E%3Ctext x='86' y='126' fill='%237C4A1B' fill-opacity='0.065' font-family='Georgia, serif' font-size='28' font-weight='700' letter-spacing='5'%3ECRISTIANO%3C/text%3E%3Ctext x='220' y='190' fill='%237C4A1B' fill-opacity='0.055' font-family='Georgia, serif' font-size='22' font-style='italic' letter-spacing='3'%3Ediario cristiano%3C/text%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 360px 220px;
+      background-position: center top;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: -25%;
+      pointer-events: none;
+      user-select: none;
+      z-index: 0;
+      opacity: 0.36;
+      transform: rotate(-16deg) translate(120px, 80px);
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='420' height='260' viewBox='0 0 420 260'%3E%3Ctext x='24' y='96' fill='%237C4A1B' fill-opacity='0.055' font-family='Georgia, serif' font-size='24' font-weight='700' letter-spacing='6'%3EDIARIO CRISTIANO%3C/text%3E%3Ctext x='150' y='196' fill='%237C4A1B' fill-opacity='0.05' font-family='Georgia, serif' font-size='20' font-style='italic' letter-spacing='4'%3Epalabra ✦ gracia%3C/text%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 420px 260px;
+      background-position: center center;
+    }
+
+    .app {
+      min-height: 100vh;
+      position: relative;
+      z-index: 1;
+    }
+
+    .header {
+      background: rgba(61, 43, 26, 0.92);
+      color: #F9F5F0;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(232, 217, 196, 0.18);
+    }
+
+    .header-inner, .main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding-left: 24px;
+      padding-right: 24px;
+    }
+
+    .header-inner {
+      padding-top: 20px;
+      padding-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: #F9F5F0;
+      letter-spacing: 0.01em;
+    }
+
+    .brand p {
+      font-family: 'Lato', sans-serif;
+      font-size: 11px;
+      color: #C8A97E;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-top: 1px;
+    }
+
+    .main {
+      padding-top: 52px;
+      padding-bottom: 48px;
+    }
+
+    .hero {
+      text-align: center;
+      margin-bottom: 36px;
+      opacity: 1;
+      background: rgba(255, 253, 249, 0.72);
+      border: 1px solid #E8D9C4;
+      border-radius: 28px;
+      padding: 38px 26px;
+      box-shadow: 0 20px 45px rgba(139, 90, 43, 0.08);
+      position: relative;
+    }
+
+    .ornament {
+      color: #C8A97E;
+      font-size: 22px;
+      letter-spacing: 8px;
+    }
+
+    .hero h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(28px, 5vw, 40px);
+      color: #3D2B1A;
+      margin-top: 12px;
+      margin-bottom: 10px;
+      line-height: 1.25;
+    }
+
+    .hero p.desc {
+      font-family: 'Lato', sans-serif;
+      color: #8E7860;
+      font-size: 15px;
+      max-width: 520px;
+      margin: 0 auto;
+      line-height: 1.8;
+    }
+
+    .hero-tags {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 22px;
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: #FFF9F2;
+      border: 1px solid #E8D9C4;
+      font-family: 'Lato', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      color: #7C4A1B;
+      letter-spacing: 0.03em;
+    }
+
+    .section-doodle {
+      position: absolute;
+      inset: auto 24px 18px auto;
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 15px;
+      letter-spacing: 0.08em;
+      color: rgba(124, 74, 27, 0.16);
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .filters {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 32px;
+      justify-content: center;
+    }
+
+    .filter-btn {
+      border: 1px solid #DCCBB5;
+      background: rgba(255,255,255,0.8);
+      padding: 8px 16px;
+      border-radius: 999px;
+      font-family: 'Lato', sans-serif;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s;
+      color: #6B5A46;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.03);
+    }
+
+    .filter-btn.active {
+      background: #7C4A1B;
+      color: #fff;
+      border-color: #7C4A1B;
+    }
+
+    .filter-btn:hover:not(.active) {
+      background: #F0E8DE;
+    }
+
+    .btn-primary {
+      background: linear-gradient(180deg, #8E5A28 0%, #7C4A1B 100%);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 12px 24px;
+      font-family: 'Lato', sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+      box-shadow: 0 10px 20px rgba(124, 74, 27, 0.22);
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(180deg, #7C4A1B 0%, #5E3614 100%);
+      transform: translateY(-1px);
+      box-shadow: 0 14px 24px rgba(94, 54, 20, 0.28);
+    }
+
+    .publish-btn {
+      background: linear-gradient(180deg, #E0BE93 0%, #C8A97E 100%);
+      color: #3D2B1A;
+      box-shadow: 0 10px 20px rgba(200, 169, 126, 0.28);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.94);
+      border: 1px solid #E8E0D5;
+      border-radius: 22px;
+      padding: 24px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 18px 36px rgba(139,90,43,0.14);
+      border-color: #C8A97E;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 4px;
+      background: linear-gradient(90deg, #C8A97E 0%, #8E5A28 100%);
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 14px;
+      gap: 10px;
+    }
+
+    .cat-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      font-family: 'Lato', sans-serif;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 20px;
+      border: 1px solid;
+    }
+
+    .publisher-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .publisher-avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: linear-gradient(180deg, #E7D4BC 0%, #C8A97E 100%);
+      color: #5E3614;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Lato', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 0.04em;
+      border: 2px solid #F7EFE5;
+      box-shadow: 0 8px 18px rgba(200, 169, 126, 0.3);
+      flex-shrink: 0;
+    }
+
+    .publisher-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+    }
+
+    .publisher-name {
+      font-family: 'Lato', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      color: #5A3E28;
+      line-height: 1.35;
+    }
+
+    .publisher-date {
+      font-family: 'Lato', sans-serif;
+      font-size: 12px;
+      color: #9C8872;
+    }
+
+    .card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 17px;
+      color: #2D1B0E;
+      margin-bottom: 10px;
+      line-height: 1.35;
+    }
+
+    .card-content {
+      font-family: 'Lato', sans-serif;
+      font-size: 13.5px;
+      color: #6B5A46;
+      line-height: 1.65;
+      margin-bottom: 18px;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .meta-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: #9C8872;
+      font-family: 'Lato', sans-serif;
+    }
+
+    .empty {
+      text-align: center;
+      padding: 60px 20px;
+      color: #9C8872;
+      font-family: 'Lato', sans-serif;
+    }
+
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(30,18,8,0.55);
+      z-index: 100;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(3px);
+    }
+
+    .modal-overlay.show {
+      display: flex;
+    }
+
+    .modal {
+      background: #FFFDF9;
+      border-radius: 24px;
+      max-width: 640px;
+      width: 100%;
+      max-height: 88vh;
+      overflow-y: auto;
+      padding: 40px;
+      box-shadow: 0 28px 70px rgba(0,0,0,0.22);
+      border: 1px solid #E8D9C4;
+    }
+
+    .modal.small {
+      max-width: 560px;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #9C8872;
+      padding: 4px;
+      flex-shrink: 0;
+    }
+
+    .blockquote {
+      background: #FBF6EF;
+      border: 1px solid #E8D9C4;
+      border-left: 4px solid #C8A97E;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 24px;
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 15px;
+      color: #5A3E28;
+      line-height: 1.7;
+    }
+
+    .detail-content {
+      font-family: 'Lato', sans-serif;
+      font-size: 15px;
+      color: #4A3525;
+      line-height: 1.85;
+      margin-bottom: 32px;
+    }
+
+    .detail-meta {
+      border-top: 1px solid #E8D9C4;
+      padding-top: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #7C4A1B;
+      font-family: 'Lato', sans-serif;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      border: 1px solid #D5C5B0;
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-family: 'Lato', sans-serif;
+      font-size: 14px;
+      color: #3D2B1A;
+      background: #FDFAF7;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      border-color: #7C4A1B;
+    }
+
+    textarea {
+      resize: vertical;
+    }
+
+    .editor-shell {
+      border: 1px solid #D5C5B0;
+      border-radius: 14px;
+      background: #FDFAF7;
+      overflow: hidden;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.7);
+    }
+
+    .editor-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 12px;
+  border-bottom: 1px solid #E8D9C4;
+  background: linear-gradient(180deg, #FFFDF9 0%, #F7EFE5 100%);
+  align-items: center;
+}
+
+    .editor-btn {
+      min-width: 36px;
+      height: 36px;
+      border: 1px solid #DECBB4;
+      border-radius: 10px;
+      background: #FFF;
+      color: #6B4A2F;
+      font-family: 'Lato', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 10px;
+      transition: all 0.18s ease;
+    }
+
+    .editor-btn:hover {
+      background: #F6EBDD;
+      border-color: #C8A97E;
+      transform: translateY(-1px);
+    }
+
+    .editor-btn.is-active {
+      background: #7C4A1B;
+      color: #FFF;
+      border-color: #7C4A1B;
+      box-shadow: 0 6px 14px rgba(124, 74, 27, 0.18);
+    }
+    .editor-select {
+  height: 36px;
+  border: 1px solid #DECBB4;
+  border-radius: 10px;
+  background: #FFF;
+  color: #6B4A2F;
+  font-family: 'Lato', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 0 12px;
+  cursor: pointer;
+  min-width: 132px;
+}
+
+.editor-divider {
+  width: 1px;
+  height: 28px;
+  background: #E8D9C4;
+  margin: 0 2px;
+}
+
+.editor-btn.wide {
+  padding: 0 12px;
+  min-width: auto;
+}
+
+.rich-editor h1,
+.rich-editor h2,
+.rich-editor h3 {
+  font-family: 'Playfair Display', serif;
+  color: #2D1B0E;
+  line-height: 1.3;
+  margin: 0 0 12px;
+}
+
+.rich-editor h1 { font-size: 28px; }
+.rich-editor h2 { font-size: 23px; }
+.rich-editor h3 { font-size: 19px; }
+
+.rich-editor,
+.detail-content,
+#detailEditorPreview {
+  text-align: justify;
+}
+
+.rich-editor img,
+#detailEditorPreview img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 16px auto;
+  border-radius: 14px;
+  border: 1px solid #E8D9C4;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.08);
+}
+
+.rich-editor .editor-image-wrap,
+#detailEditorPreview .editor-image-wrap {
+  text-align: center;
+  margin: 18px 0;
+}
+
+.rich-editor .editor-image-wrap {
+  position: relative;
+  cursor: pointer;
+}
+
+.rich-editor .editor-image-wrap.is-selected {
+  outline: 2px solid #C8A97E;
+  outline-offset: 4px;
+  border-radius: 16px;
+}
+
+.rich-editor ul,
+.rich-editor ol {
+  padding-left: 20px;
+  margin: 0 0 10px;
+}
+
+.rich-editor li {
+  margin-bottom: 6px;
+}
+
+    .rich-editor {
+      min-height: 170px;
+      padding: 14px 16px;
+      font-family: 'Lato', sans-serif;
+      font-size: 14px;
+      line-height: 1.8;
+      color: #3D2B1A;
+      outline: none;
+    }
+
+    .rich-editor:empty::before {
+      content: attr(data-placeholder);
+      color: #B09A82;
+    }
+
+    .rich-editor p {
+      margin: 0 0 10px;
+    }
+
+    .rich-editor blockquote {
+      margin: 10px 0;
+      padding: 10px 14px;
+      border-left: 3px solid #C8A97E;
+      background: #FBF6EF;
+      border-radius: 8px;
+      color: #6B4A2F;
+      font-style: italic;
+    }
+
+    .editor-note {
+      font-family: 'Lato', sans-serif;
+      font-size: 12px;
+      color: #9C8872;
+      margin-top: 8px;
+      line-height: 1.6;
+    }
+
+    .form-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .footer {
+      border-top: 1px solid #E8D9C4;
+      margin-top: 36px;
+      padding: 28px 24px 34px;
+      text-align: center;
+      background: rgba(255, 253, 249, 0.5);
+    }
+
+    .footer p {
+      font-family: 'Lato', sans-serif;
+      font-size: 12px;
+      color: #B09A82;
+      letter-spacing: 0.08em;
+    }
+
+    .publish-btn.secondary {
+  background: linear-gradient(180deg, #8E5A28 0%, #7C4A1B 100%);
+  color: #fff;
+}
+
+.auth-required {
+  margin-top: 10px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid #E8D9C4;
+  background: #FBF6EF;
+  font-family: 'Lato', sans-serif;
+  font-size: 13px;
+  color: #6B4A2F;
+  line-height: 1.6;
+}
+
+.publisher-avatar.img {
+  overflow: hidden;
+  padding: 0;
+  background: #F7EFE5;
+}
+
+.publisher-avatar.img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.loading-note {
+  text-align: center;
+  padding: 28px 20px;
+  font-family: 'Lato', sans-serif;
+  color: #9C8872;
+}
+.card-action-btn {
+  border: 1px solid #DECBB4;
+  background: #FFF9F2;
+  color: #7C4A1B;
+  border-radius: 999px;
+  padding: 6px 10px;
+  font-family: 'Lato', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.card-action-btn:hover {
+  background: #F6EBDD;
+  border-color: #C8A97E;
+}
+
+.card-action-btn.delete-btn {
+  color: #9F1239;
+  border-color: #FBCFE8;
+  background: #FFF1F2;
+}
+
+.card-action-btn.delete-btn:hover {
+  background: #FFE4E6;
+}
+.admin-panel {
+  max-width: 900px;
+  margin: 0 auto 28px;
+  padding: 22px;
+  background: rgba(255,255,255,0.92);
+  border: 1px solid #E8D9C4;
+  border-radius: 22px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+.admin-panel[hidden] {
+  display: none !important;
+}
+
+.admin-panel h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 24px;
+  color: #2D1B0E;
+  margin-bottom: 6px;
+}
+
+.admin-panel p {
+  font-family: 'Lato', sans-serif;
+  color: #8E7860;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.admin-requests {
+  margin-top: 18px;
+  display: grid;
+  gap: 14px;
+}
+
+.admin-request-card {
+  border: 1px solid #E8D9C4;
+  border-radius: 18px;
+  padding: 16px;
+  background: #FFFDF9;
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.admin-request-info {
+  min-width: 0;
+}
+
+.admin-request-name {
+  font-family: 'Lato', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: #5A3E28;
+  margin-bottom: 4px;
+}
+
+.admin-request-meta {
+  font-family: 'Lato', sans-serif;
+  font-size: 13px;
+  color: #9C8872;
+  line-height: 1.7;
+  word-break: break-word;
+}
+
+.admin-request-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.admin-btn {
+  border: 1px solid #DECBB4;
+  background: #FFF9F2;
+  color: #7C4A1B;
+  border-radius: 999px;
+  padding: 8px 12px;
+  font-family: 'Lato', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.admin-btn:hover {
+  background: #F6EBDD;
+}
+
+.admin-btn.reject {
+  color: #9F1239;
+  border-color: #FBCFE8;
+  background: #FFF1F2;
+}
+
+.admin-empty {
+  margin-top: 18px;
+  padding: 20px;
+  border: 1px dashed #DCCBB5;
+  border-radius: 18px;
+  text-align: center;
+  font-family: 'Lato', sans-serif;
+  color: #9C8872;
+}
+.share-panel {
+  margin: 0 0 24px;
+  padding: 16px;
+  border: 1px solid #E8D9C4;
+  border-radius: 16px;
+  background: #FFF9F2;
+}
+
+.share-panel-title {
+  font-family: 'Lato', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #7C4A1B;
+  margin-bottom: 10px;
+}
+
+.share-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.share-btn {
+  border: 1px solid #DECBB4;
+  background: #FFF;
+  color: #6B4A2F;
+  border-radius: 999px;
+  padding: 10px 14px;
+  font-family: 'Lato', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.18s ease;
+}
+
+.share-btn:hover {
+  background: #F6EBDD;
+  border-color: #C8A97E;
+}
+
+.share-btn.whatsapp {
+  color: #166534;
+  border-color: #BBF7D0;
+  background: #F0FDF4;
+}
+
+.share-btn.mail {
+  color: #1D4ED8;
+  border-color: #BFDBFE;
+  background: #EFF6FF;
+}
+
+.share-btn.copy {
+  color: #7C2D12;
+  border-color: #FED7AA;
+  background: #FFF7ED;
+}
+.share-count {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 14px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: #FFF;
+  border: 1px solid #E8D9C4;
+  font-family: 'Lato', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  color: #7C4A1B;
+}
+
+.card-share-count {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+  font-family: 'Lato', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  color: #9C8872;
+}
+.category-check-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.category-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border: 1px solid #E8D9C4;
+  border-radius: 12px;
+  background: #FFFDF9;
+  font-family: 'Lato', sans-serif;
+  font-size: 13px;
+  color: #5A3E28;
+  cursor: pointer;
+}
+
+.category-check input {
+  width: auto;
+  margin: 0;
+  accent-color: #7C4A1B;
+}
+
+.upload-image-btn {
+  border: 1px solid #DECBB4;
+  background: #FFF;
+  color: #6B4A2F;
+  border-radius: 10px;
+  padding: 0 12px;
+  min-width: auto;
+  height: 36px;
+  font-family: 'Lato', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+    .upload-image-btn:hover {
+      background: #F6EBDD;
+      border-color: #C8A97E;
+    }
+
+    /* USER AVATAR RESPONSIVE + HOVER */
+  .user-pill {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+  padding: 6px 10px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  --menu-shift-x: -50%;
+  --menu-arrow-left: 50%;
+}
+
+    .user-pill-details {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.2;
+    }
+
+    .user-pill-name {
+      font-family: 'Lato', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: #F9F5F0;
+      white-space: nowrap;
+    }
+
+    .user-pill-logout {
+      background: none;
+      border: none;
+      color: #C8A97E;
+      font-size: 11px;
+      cursor: pointer;
+      text-align: left;
+      padding: 0;
+    }
+
+    /* MOBILE: SOLO AVATAR */
+    @media (max-width: 700px) {
+      body::before {
+        inset: -35%;
+        opacity: 0.52;
+        background-size: 260px 160px;
+      }
+
+      body::after {
+        inset: -35%;
+        opacity: 0.3;
+        background-size: 300px 185px;
+      }
+      .header-inner {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .brand {
+        justify-content: center;
+      }
+
+      .header-inner > div:last-child {
+        justify-content: space-between !important;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .header-inner .btn-primary {
+        justify-content: center;
+      }
+
+      #openFormBtn,
+      #loginBtn,
+      #requestAccessBtn {
+        padding-left: 18px;
+        padding-right: 18px;
+        flex-shrink: 0;
+      }
+
+      .two-col {
+        grid-template-columns: 1fr;
+      }
+
+      .modal {
+        padding: 24px;
+      }
+
+      .user-pill {
+        padding: 4px;
+        position: relative;
+        justify-content: center;
+        overflow: visible;
+      }
+
+      .user-pill-details {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 50%;
+  width: max-content;
+  min-width: 170px;
+  max-width: min(70vw, 220px);
+  background: rgba(255, 251, 245, 0.88);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  padding: 10px 12px;
+  border-radius: 16px;
+  box-shadow: 0 18px 42px rgba(26, 18, 10, 0.18);
+  z-index: 1000;
+  border: 1px solid rgba(255,255,255,0.55);
+  opacity: 0;
+  transform: translateX(var(--menu-shift-x)) translateY(-8px) scale(0.96);
+  transform-origin: top center;
+  pointer-events: none;
+  transition: opacity 0.22s ease, transform 0.22s ease;
+}
+
+      .user-pill-details::before {
+  content: "";
+  position: absolute;
+  top: -7px;
+  left: var(--menu-arrow-left);
+  width: 14px;
+  height: 14px;
+  transform: translateX(-50%) rotate(45deg);
+  background: rgba(255, 251, 245, 0.88);
+  border-left: 1px solid rgba(255,255,255,0.55);
+  border-top: 1px solid rgba(255,255,255,0.55);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+}
+
+      .user-pill.open .user-pill-details {
+  opacity: 1;
+  transform: translateX(var(--menu-shift-x)) translateY(0) scale(1);
+  will-change: transform, opacity;
+  pointer-events: auto;
+}
+
+      .user-pill.open {
+        box-shadow: 0 10px 24px rgba(0,0,0,0.14);
+      }
+      .user-pill.menu-left {
+  --menu-shift-x: 0%;
+  --menu-arrow-left: 24px;
+}
+
+.user-pill.menu-right {
+  --menu-shift-x: -100%;
+  --menu-arrow-left: calc(100% - 24px);
+}
+
+.user-pill.menu-center {
+  --menu-shift-x: -50%;
+  --menu-arrow-left: 50%;
+}
+
+      .user-pill-logout {
+  margin-top: 8px;
+  color: #8E5A28;
+  font-weight: 700;
+}
+
+      .user-pill-logout:hover {
+  color: #5E3614;
+}
+
+      .user-pill-name {
+  white-space: normal;
+  line-height: 1.3;
+  word-break: break-word;
+  font-size: 12px;
+  color: #3D2B1A;
+}
+
+      .header {
+        overflow: visible;
+      }
+
+      .header-inner,
+      .header-inner > div:last-child {
+        overflow: visible;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <div class="header-inner">
+        <div class="brand">
+          <div style="color:#C8A97E">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+              <rect x="11" y="2" width="6" height="24" rx="2" fill="currentColor"></rect>
+              <rect x="2" y="9" width="24" height="6" rx="2" fill="currentColor"></rect>
+            </svg>
+          </div>
+          <div>
+            <h1>Diario Cristiano</h1>
+            <p>Devocionales Diarios</p>
+          </div>
+        </div>
+        <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap; justify-content:flex-end;">
+  <div id="userBox" class="user-pill" tabindex="0">
+  <img id="userAvatar" alt="Foto del publisher"
+    style="width:36px; height:36px; border-radius:50%; object-fit:cover; border:2px solid #E0BE93; flex-shrink:0;" />
+  <div class="user-pill-details">
+    <span id="userName" class="user-pill-name"></span>
+    <button id="logoutBtn" class="user-pill-logout">
+      Cerrar sesión
+    </button>
+  </div>
+</div>
+
+  <button class="btn-primary publish-btn" id="loginBtn">Iniciar con Google</button>
+<button class="btn-primary publish-btn" id="openFormBtn" style="display:none;">Publicar</button>
+<button class="btn-primary publish-btn secondary" id="requestAccessBtn" style="display:none;">
+  Solicitar acceso
+</button>
+</div>
+      </div>
+    </header>
+
+    <main class="main">
+      <section id="adminPanel" class="admin-panel" hidden>
+  <h3>Panel Admin</h3>
+  <p>Revisa las solicitudes de acceso y aprueba nuevos publishers sin salir del sitio.</p>
+  <div id="adminRequests" class="admin-requests"></div>
+  <div id="adminEmpty" class="admin-empty" hidden>No hay solicitudes pendientes por ahora.</div>
+</section>
+      <div style="text-align:center; font-family:'Playfair Display', serif; font-style:italic; font-size:16px; color:rgba(124, 74, 27, 0.22); letter-spacing:0.06em; margin-bottom:18px;">
+        diario cristiano ✦ palabra ✦ gracia
+      </div>
+
+      <section class="hero">
+        <p class="ornament">✦ ✦ ✦</p>
+        <h2>La Palabra para Tu Día</h2>
+        <p class="desc">Alimenta tu alma con reflexiones bíblicas que iluminan el camino cada mañana.</p>
+        <div class="hero-tags">
+          <span class="hero-tag">Reflexiones diarias</span>
+          <span class="hero-tag">Palabra y oración</span>
+          <span class="hero-tag">Inspiración para tu fe</span>
+        </div>
+        <div class="section-doodle">diario cristiano</div>
+      </section>
+
+      <div class="filters" id="filters"></div>
+      <div class="grid" id="cardsGrid"></div>
+
+      <div class="empty" id="emptyState" hidden>
+        <div style="font-size:40px; margin-bottom:12px;">✝</div>
+        <p>No hay devocionales en esta categoría aún.</p>
+      </div>
+    </main>
+
+    <div class="modal-overlay" id="detailOverlay">
+      <div class="modal">
+        <div class="modal-header">
+          <div id="detailBadgeGroup" style="display:flex; flex-wrap:wrap; gap:8px;"></div>
+          <button class="close-btn" id="closeDetailBtn">✕</button>
+        </div>
+
+        <p class="ornament" style="text-align:center; margin-bottom:16px;">✦ ✦ ✦</p>
+
+        <h2 id="detailTitle" style="font-family:'Playfair Display', serif; font-size:clamp(20px, 4vw, 28px); color:#2D1B0E; text-align:center; line-height:1.3; margin-bottom:24px;"></h2>
+
+        <blockquote class="blockquote" id="detailVerse"></blockquote>
+
+        <div id="detailEditorPreview" style="display:none; margin-bottom:20px; padding:14px 16px; border:1px solid #E8D9C4; border-radius:12px; background:#FBF6EF; font-family:'Lato', sans-serif; font-size:14px; line-height:1.8; color:#5A3E28;"></div>
+
+        <p class="detail-content" id="detailContent"></p>
+
+<div class="share-panel">
+  <div class="share-panel-title">Compartir devocional</div>
+  <div class="share-actions">
+    <button class="share-btn mail" id="shareEmailBtn" type="button">✉️ Correo</button>
+    <button class="share-btn whatsapp" id="shareWhatsAppBtn" type="button">🟢 WhatsApp</button>
+    <button class="share-btn copy" id="copyLinkBtn" type="button">🔗 Copiar enlace</button>
+  </div>
+  <div class="share-count" id="detailShareCount">🔁 0 compartidos</div>
+</div>
+
+        <div class="detail-meta">
+          <div class="meta-row" id="detailPublisher"></div>
+          <div class="meta-row" id="detailDate"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-overlay" id="formOverlay">
+      <div class="modal small">
+        <div class="modal-header" style="align-items:center; margin-bottom:28px;">
+          <div>
+            <h2 id="formModalTitle" style="font-family:'Playfair Display', serif; font-size:22px; color:#2D1B0E;">Nuevo Devocional</h2>
+            <p id="formModalSubtitle" style="font-family:'Lato', sans-serif; font-size:13px; color:#9C8872; margin-top:3px;">Comparte la Palabra con la comunidad</p>
+          </div>
+          <button class="close-btn" id="closeFormBtn">✕</button>
+        </div>
+
+        <form class="form-stack" id="devotionalForm">
+          <div>
+            <label for="title">Título</label>
+            <input id="title" name="title" placeholder="Título del devocional..." />
+          </div>
+
+          <div>
+            <label for="verse">Versículo Bíblico</label>
+            <input id="verse" name="verse" placeholder='"El Señor es mi pastor..." — Salmo 23:1' />
+          </div>
+
+          <div>
+            <label>Editor de Texto</label>
+            <div class="editor-shell">
+              <div class="editor-toolbar">
+  <select id="formatSelect" class="editor-select" title="Formato">
+    <option value="p">Párrafo</option>
+    <option value="h1">Título grande</option>
+    <option value="h2">Título mediano</option>
+    <option value="h3">Título pequeño</option>
+    <option value="blockquote">Cita</option>
+  </select>
+
+  <div class="editor-divider"></div>
+
+  <button class="editor-btn" type="button" data-command="bold" title="Negrita"><strong>B</strong></button>
+  <button class="editor-btn" type="button" data-command="italic" title="Cursiva"><em>I</em></button>
+  <button class="editor-btn" type="button" data-command="underline" title="Subrayado"><span style="text-decoration:underline;">U</span></button>
+
+  <div class="editor-divider"></div>
+
+  <button class="editor-btn wide" type="button" data-command="insertUnorderedList" title="Lista">• Lista</button>
+<button class="editor-btn wide" type="button" data-command="justifyCenter" title="Centrar">Centrar</button>
+<button class="editor-btn wide" type="button" data-command="justifyFull" title="Justificar">Justificar</button>
+
+  <div class="editor-divider"></div>
+
+  <button class="editor-btn wide" type="button" data-color="#7C4A1B" title="Color tierra">A</button>
+  <button class="editor-btn wide" type="button" data-color="#6D28D9" title="Color oración">A</button>
+  <button class="editor-btn wide" type="button" data-color="#15803D" title="Color esperanza">A</button>
+
+  <div class="editor-divider"></div>
+
+  <button class="editor-btn wide" type="button" id="insertVerseBtn" title="Insertar versículo">Versículo</button>
+<button class="editor-btn wide" type="button" id="insertImageBtn" title="Insertar imagen por URL">Imagen URL</button>
+<label class="upload-image-btn" for="imageUploadInput">Subir imagen</label>
+<input id="imageUploadInput" type="file" accept="image/*" style="display:none;" />
+<button class="editor-btn wide" type="button" data-command="removeFormat" title="Limpiar">Limpiar</button>
+</div>
+              <div id="richEditor" class="rich-editor" contenteditable="true" data-placeholder="Escribe una introducción o texto destacado para tu publicación..."></div>
+            </div>
+            <p class="editor-note">Este editor sirve para resaltar ideas antes de la reflexión principal.</p>
+          </div>
+
+          <div>
+            <label for="content">Reflexión</label>
+            <textarea id="content" name="content" placeholder="Escribe la reflexión devocional..." rows="5"></textarea>
+          </div>
+
+          <div>
+  <label>Categorías</label>
+  <div id="categoryCheckboxes" class="category-check-grid"></div>
+</div>
+
+          <div>
+            <label for="date">Fecha</label>
+            <input id="date" name="date" type="date" />
+          </div>
+
+          <div id="authNotice" class="auth-required" style="display:none;">
+  🔒 Debes iniciar sesión con Google para publicar.
+</div>
+
+<button class="btn-primary" style="width:100%; justify-content:center; margin-top:4px; padding:14px;" type="submit">
+  Publicar Devocional
+</button>
+        </form>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <div style="color:#C8A97E; margin-bottom:8px;">✦ ✝ ✦</div>
+      <p>DIARIO CRISTIANO · DEVOCIONALES DIARIOS</p>
+    </footer>
+  </div>
+
+  <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+  import {
+  getAnalytics,
+  isSupported as isAnalyticsSupported,
+  logEvent
+} from "https://www.gstatic.com/firebasejs/11.6.1/firebase-analytics.js";
+  import {
+    getAuth,
+    GoogleAuthProvider,
+    signInWithPopup,
+    onAuthStateChanged,
+    signOut
+  } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+  import {
+  initializeFirestore,
+  collection,
+  addDoc,
+  onSnapshot,
+  query,
+  orderBy,
+  serverTimestamp,
+  updateDoc,
+  deleteDoc,
+  doc,
+  getDoc,
+  getDocs,
+  where,
+  setDoc,
+  increment
+} from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+  // ============================================
+  // 1) PEGA AQUÍ TU CONFIGURACIÓN REAL DE FIREBASE
+  // ============================================
+ const firebaseConfig = {
+  apiKey: "AIzaSyBWrf1-7YTi5LxF5xyvq_eLPRhaIh2044I",
+  authDomain: "diario-cristiano.firebaseapp.com",
+  projectId: "diario-cristiano",
+  storageBucket: "diario-cristiano.firebasestorage.app",
+  messagingSenderId: "403862043051",
+  appId: "1:403862043051:web:fe34a6388d5c5348a87aee",
+  measurementId: "G-8ENKDZ86QN"
+};
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = initializeFirestore(app, {
+    experimentalAutoDetectLongPolling: true
+  });
+  const provider = new GoogleAuthProvider();
+  let analyticsInstance = null;
+isAnalyticsSupported().then((supported) => {
+  if (supported) {
+    analyticsInstance = getAnalytics(app);
+  }
+}).catch((error) => {
+  console.error("Analytics no disponible:", error);
+});
+
+  const CATEGORIES = ["Fe", "Esperanza", "Amor", "Oración", "Gracia", "Sabiduría", "Salvación"];
+
+  const categoryColors = {
+    "Fe": { bg: "#FFF7ED", text: "#C2410C", border: "#FED7AA" },
+    "Esperanza": { bg: "#F0FDF4", text: "#15803D", border: "#BBF7D0" },
+    "Amor": { bg: "#FFF1F2", text: "#BE123C", border: "#FECDD3" },
+    "Oración": { bg: "#F5F3FF", text: "#6D28D9", border: "#DDD6FE" },
+    "Gracia": { bg: "#FFFBEB", text: "#B45309", border: "#FDE68A" },
+    "Sabiduría": { bg: "#EFF6FF", text: "#1D4ED8", border: "#BFDBFE" },
+    "Salvación": { bg: "#F0FDFA", text: "#0F766E", border: "#99F6E4" }
+  };
+
+  let devotionals = [];
+  let filterCat = "Todas";
+  let currentUser = null;
+  let editingDevotionalId = null;
+  let currentUserIsAdmin = false;
+  let selectedDevotional = null;
+  let savedEditorRange = null;
+  let selectedImageWrap = null;
+  let pendingUploadPromise = Promise.resolve();
+
+
+  const filtersEl = document.getElementById("filters");
+  const cardsGridEl = document.getElementById("cardsGrid");
+  const emptyStateEl = document.getElementById("emptyState");
+  const detailOverlay = document.getElementById("detailOverlay");
+  const formOverlay = document.getElementById("formOverlay");
+  const form = document.getElementById("devotionalForm");
+  const categoryCheckboxes = document.getElementById("categoryCheckboxes");
+  const dateInput = document.getElementById("date");
+  const richEditor = document.getElementById("richEditor");
+  const formTitleEl = document.getElementById("formModalTitle");
+  const formSubtitleEl = document.getElementById("formModalSubtitle");
+  const submitBtn = form.querySelector('button[type="submit"]');
+  const editorButtons = document.querySelectorAll(".editor-btn");
+  const formatSelect = document.getElementById("formatSelect");
+  const insertVerseBtn = document.getElementById("insertVerseBtn");
+  const insertImageBtn = document.getElementById("insertImageBtn");
+  const imageUploadInput = document.getElementById("imageUploadInput");
+const detailBadgeGroup = document.getElementById("detailBadgeGroup");
+
+  const loginBtn = document.getElementById("loginBtn");
+  const logoutBtn = document.getElementById("logoutBtn");
+  const userBox = document.getElementById("userBox");
+  const userAvatar = document.getElementById("userAvatar");
+  const userName = document.getElementById("userName");
+  const authNotice = document.getElementById("authNotice");
+  const requestAccessBtn = document.getElementById("requestAccessBtn");
+  const openFormBtn = document.getElementById("openFormBtn");
+  const adminPanel = document.getElementById("adminPanel");
+  const adminRequests = document.getElementById("adminRequests");
+  const adminEmpty = document.getElementById("adminEmpty");
+  const shareEmailBtn = document.getElementById("shareEmailBtn");
+const shareWhatsAppBtn = document.getElementById("shareWhatsAppBtn");
+const copyLinkBtn = document.getElementById("copyLinkBtn");
+const detailShareCount = document.getElementById("detailShareCount");
+
+  function todayISO() {
+    return new Date().toISOString().split("T")[0];
+  }
+
+  function formatDate(dateStr) {
+    if (!dateStr) return "";
+    const [y, m, d] = dateStr.split("-");
+    const months = ["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"];
+    return `${parseInt(d, 10)} ${months[parseInt(m, 10) - 1]} ${y}`;
+  }
+function getDevotionalShareUrl(dev) {
+  const url = new URL(window.location.href);
+  url.searchParams.set("devotional", dev.id);
+  return url.toString();
+}
+
+function buildDevotionalShareText(dev) {
+  const parts = [
+    `Devocional: ${dev.title}`,
+    dev.verse ? `Versículo: ${dev.verse}` : "",
+    dev.content ? dev.content.slice(0, 220) : "",
+    `Compartido desde Diario Cristiano: ${getDevotionalShareUrl(dev)}`
+  ].filter(Boolean);
+
+  return parts.join("\n\n");
+}
+
+function formatShareCount(count) {
+  const value = Number(count || 0);
+  return `${value} ${value === 1 ? "compartido" : "compartidos"}`;
+}
+
+async function bumpShareCount(dev, method) {
+  if (!dev || !dev.id) return;
+
+  try {
+    await updateDoc(doc(db, "devotionals", dev.id), {
+      shareCount: increment(1),
+      lastSharedAt: serverTimestamp(),
+      lastSharedMethod: method || "unknown"
+    });
+  } catch (error) {
+    console.error("No se pudo actualizar el contador de compartidos:", error);
+  }
+}
+
+function trackAnalyticsEvent(eventName, params = {}) {
+  if (!analyticsInstance) return;
+  try {
+    logEvent(analyticsInstance, eventName, params);
+  } catch (error) {
+    console.error(`No se pudo registrar el evento ${eventName}:`, error);
+  }
+}
+
+  function catStyle(cat) {
+    return categoryColors[cat] || { bg: "#F9FAFB", text: "#374151", border: "#E5E7EB" };
+  }
+
+  function normalizeCategories(dev) {
+  if (Array.isArray(dev.categories) && dev.categories.length) {
+    return dev.categories;
+  }
+  if (dev.category) {
+    return [dev.category];
+  }
+  return [];
+}
+
+function getPrimaryCategory(dev) {
+  const categories = normalizeCategories(dev);
+  return categories[0] || "Fe";
+}
+
+function getSelectedCategoriesFromForm() {
+  return Array.from(categoryCheckboxes.querySelectorAll('input[type="checkbox"]:checked'))
+    .map(input => input.value)
+    .filter(Boolean);
+}
+
+function setSelectedCategories(categories) {
+  const selected = Array.isArray(categories) ? categories : [];
+  categoryCheckboxes.querySelectorAll('input[type="checkbox"]').forEach(input => {
+    input.checked = selected.includes(input.value);
+  });
+}
+
+function renderDetailBadges(dev) {
+  const categories = normalizeCategories(dev);
+  detailBadgeGroup.innerHTML = categories.map(category => {
+    const style = catStyle(category);
+    return `<span class="cat-badge" style="background:${style.bg}; color:${style.text}; border-color:${style.border};">${category}</span>`;
+  }).join("");
+}
+
+  function getInitials(name) {
+    return String(name || "")
+      .trim()
+      .split(/\s+/)
+      .slice(0, 2)
+      .map(part => part.charAt(0).toUpperCase())
+      .join("");
+  }
+
+  function getEditorHTML() {
+    const html = richEditor.innerHTML.replace(/<div><br><\/div>/g, "").trim();
+    return html === "<br>" ? "" : html;
+  }
+  function saveEditorSelection() {
+  const selection = window.getSelection();
+  if (!selection || !selection.rangeCount) return;
+  const range = selection.getRangeAt(0);
+  if (richEditor.contains(range.commonAncestorContainer)) {
+    savedEditorRange = range.cloneRange();
+  }
+}
+
+function restoreEditorSelection() {
+  if (!savedEditorRange) return;
+  const selection = window.getSelection();
+  if (!selection) return;
+  selection.removeAllRanges();
+  selection.addRange(savedEditorRange);
+}
+
+function clearSelectedImageWrap() {
+  if (selectedImageWrap) {
+    selectedImageWrap.classList.remove("is-selected");
+    selectedImageWrap = null;
+  }
+}
+
+function selectImageWrap(wrap) {
+  clearSelectedImageWrap();
+  selectedImageWrap = wrap || null;
+  if (selectedImageWrap) {
+    selectedImageWrap.classList.add("is-selected");
+  }
+}
+
+function removeSelectedImageWrap() {
+  if (!selectedImageWrap) return false;
+  const wrap = selectedImageWrap;
+  clearSelectedImageWrap();
+  wrap.remove();
+  return true;
+}
+
+function resetEditor() {
+  richEditor.innerHTML = "";
+  savedEditorRange = null;
+  pendingUploadPromise = Promise.resolve();
+  clearSelectedImageWrap();
+  syncEditorButtons();
+  if (formatSelect) formatSelect.value = "p";
+}
+
+  function syncEditorButtons() {
+    editorButtons.forEach(btn => {
+      const command = btn.dataset.command;
+
+      if (["bold", "italic", "underline"].includes(command)) {
+        try {
+          btn.classList.toggle("is-active", document.queryCommandState(command));
+        } catch (err) {
+          btn.classList.remove("is-active");
+        }
+        return;
+      }
+
+      if (["justifyCenter", "justifyFull"].includes(command)) {
+  try {
+    btn.classList.toggle("is-active", document.queryCommandState(command));
+  } catch (err) {
+    btn.classList.remove("is-active");
+  }
+  return;
+}
+
+      btn.classList.remove("is-active");
+    });
+  }
+
+  function applyTextColor(color) {
+    richEditor.focus();
+    document.execCommand("styleWithCSS", false, true);
+    document.execCommand("foreColor", false, color);
+    syncEditorButtons();
+  }
+
+  function applyBlockFormat(tagName) {
+    richEditor.focus();
+    document.execCommand("formatBlock", false, tagName);
+    syncEditorButtons();
+  }
+
+  function insertVerseTemplate() {
+    richEditor.focus();
+    const verseText = '"Escribe aquí tu versículo favorito" — Referencia';
+    document.execCommand("insertHTML", false, `<blockquote>${verseText}</blockquote>`);
+    syncEditorButtons();
+  }
+
+  function insertImageTemplate() {
+  saveEditorSelection();
+  const imageUrl = window.prompt("Pega la URL de la imagen que quieres insertar:");
+  if (!imageUrl) return;
+
+  const safeUrl = imageUrl.trim();
+  if (!/^https?:\/\//i.test(safeUrl)) {
+    alert("Usa una URL válida que empiece con http:// o https://");
+    return;
+  }
+
+  richEditor.focus();
+  restoreEditorSelection();
+  document.execCommand(
+    "insertHTML",
+    false,
+    `<div class="editor-image-wrap"><img src="${safeUrl}" alt=""></div><p><br></p>`
+  );
+  savedEditorRange = null;
+  syncEditorButtons();
+}
+
+  async function updateAuthUI(user) {
+    currentUser = user || null;
+    currentUserIsAdmin = false;
+
+    if (user) {
+      userBox.style.display = "flex";
+      userBox.classList.remove("open");
+      userBox.classList.remove("menu-left", "menu-center", "menu-right", "align-right");
+      updateUserMenuDirection();
+      loginBtn.style.display = "none";
+      userAvatar.src = user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.displayName || "U")}`;
+      userName.textContent = user.displayName || user.email || "Usuario";
+      authNotice.style.display = "none";
+
+      try {
+        const [publisherSnap, adminSnap] = await Promise.all([
+          getDoc(doc(db, "allowed_publishers", user.uid)),
+          getDoc(doc(db, "allowed_admins", user.uid))
+        ]);
+
+        currentUserIsAdmin = adminSnap.exists();
+
+        if (publisherSnap.exists() || currentUserIsAdmin) {
+          openFormBtn.style.display = "inline-flex";
+          requestAccessBtn.style.display = "none";
+        } else {
+          openFormBtn.style.display = "none";
+
+          const qReq = query(collection(db, "publisher_requests"), where("uid", "==", user.uid));
+          const reqSnap = await getDocs(qReq);
+
+          requestAccessBtn.style.display = "inline-flex";
+          if (!reqSnap.empty) {
+            requestAccessBtn.textContent = "Solicitud enviada";
+            requestAccessBtn.disabled = true;
+            requestAccessBtn.style.opacity = "0.6";
+          } else {
+            requestAccessBtn.textContent = "Solicitar acceso";
+            requestAccessBtn.disabled = false;
+            requestAccessBtn.style.opacity = "1";
+          }
+        }
+      } catch (error) {
+        console.error("Error verificando acceso del usuario:", error);
+        openFormBtn.style.display = "none";
+        requestAccessBtn.style.display = "none";
+      }
+
+      renderCards();
+      await renderAdminRequests();
+
+    } else {
+      userBox.style.display = "none";
+      userBox.classList.remove("open");
+      userBox.classList.remove("menu-left", "menu-center", "menu-right", "align-right");
+      loginBtn.style.display = "inline-flex";
+      openFormBtn.style.display = "none";
+      requestAccessBtn.style.display = "none";
+      renderCards();
+      adminPanel.hidden = true;
+      adminRequests.innerHTML = "";
+      adminEmpty.hidden = true;
+      adminEmpty.textContent = "No hay solicitudes pendientes por ahora.";
+    }
+  }
+
+function insertUploadedImage(file) {
+  if (!file) return;
+  if (!file.type.startsWith("image/")) {
+    alert("Selecciona un archivo de imagen válido.");
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = () => {
+    const result = typeof reader.result === "string" ? reader.result : "";
+    if (!result) return;
+
+    richEditor.focus();
+    restoreEditorSelection();
+    document.execCommand(
+      "insertHTML",
+      false,
+      `<div class="editor-image-wrap"><img src="${result}" alt=""></div><p><br></p>`
+    );
+    savedEditorRange = null;
+    pendingUploadPromise = Promise.resolve();
+    syncEditorButtons();
+    imageUploadInput.value = "";
+  };
+
+  reader.readAsDataURL(file);
+}
+  function renderFilters() {
+    const categories = ["Todas", ...CATEGORIES];
+    filtersEl.innerHTML = categories.map(c => `
+      <button class="filter-btn ${filterCat === c ? "active" : ""}" data-category="${c}">${c}</button>
+    `).join("");
+
+    filtersEl.querySelectorAll(".filter-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        filterCat = btn.dataset.category;
+        renderFilters();
+        renderCards();
+      });
+    });
+  }
+
+  function openDevotionalFromUrl() {
+  const params = new URLSearchParams(window.location.search);
+  const devotionalId = params.get("devotional");
+  if (!devotionalId) return;
+
+  const dev = devotionals.find(item => item.id === devotionalId);
+  if (dev) {
+    openDetail(dev, false);
+  }
+}
+
+function updateDevotionalUrl(dev) {
+  const url = new URL(window.location.href);
+  url.searchParams.set("devotional", dev.id);
+  window.history.replaceState({}, "", url.toString());
+}
+
+function clearDevotionalUrl() {
+  const url = new URL(window.location.href);
+  url.searchParams.delete("devotional");
+  window.history.replaceState({}, "", url.toString());
+}
+
+function shareSelectedByEmail() {
+  if (!selectedDevotional) return;
+  const subject = `Devocional: ${selectedDevotional.title}`;
+  const body = buildDevotionalShareText(selectedDevotional);
+  trackAnalyticsEvent("share", {
+    method: "email",
+    content_type: "devotional",
+    item_id: selectedDevotional.id
+  });
+  bumpShareCount(selectedDevotional, "email");
+  window.location.href = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+}
+
+function shareSelectedByWhatsApp() {
+  if (!selectedDevotional) return;
+  const text = buildDevotionalShareText(selectedDevotional);
+  trackAnalyticsEvent("share", {
+    method: "whatsapp",
+    content_type: "devotional",
+    item_id: selectedDevotional.id
+  });
+  bumpShareCount(selectedDevotional, "whatsapp");
+  window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, "_blank", "noopener,noreferrer");
+}
+async function copySelectedLink() {
+  if (!selectedDevotional) return;
+  const link = getDevotionalShareUrl(selectedDevotional);
+  try {
+    await navigator.clipboard.writeText(link);
+    trackAnalyticsEvent("share", {
+      method: "copy_link",
+      content_type: "devotional",
+      item_id: selectedDevotional.id
+    });
+    bumpShareCount(selectedDevotional, "copy_link");
+    alert("Enlace copiado al portapapeles.");
+  } catch (error) {
+    console.error("No se pudo copiar el enlace:", error);
+    alert("No se pudo copiar el enlace.");
+  }
+}
+
+  function avatarMarkup(dev, small = false) {
+    const size = small ? 36 : 42;
+    const fontSize = small ? 12 : 13;
+
+    if (dev.publisherPhoto) {
+  return `
+    <div class="publisher-avatar img" style="width:${size}px; height:${size}px; font-size:${fontSize}px;">
+      <img
+        src="${dev.publisherPhoto}"
+        alt="${dev.publisher}"
+        onerror="this.parentElement.outerHTML='<div class=&quot;publisher-avatar&quot; style=&quot;width:${size}px;height:${size}px;font-size:${fontSize}px;&quot;>${getInitials(dev.publisher)}</div>'"
+      >
+    </div>
+  `;
+}
+
+    return `
+      <div class="publisher-avatar" style="width:${size}px; height:${size}px; font-size:${fontSize}px;">
+        ${getInitials(dev.publisher)}
+      </div>
+    `;
+  }
+function isOwner(dev) {
+  return !!(
+    currentUser &&
+    dev &&
+    dev.publisherUid &&
+    currentUser.uid === dev.publisherUid
+  );
+}
+
+function canManageDevotional(dev) {
+  return !!(currentUserIsAdmin || isOwner(dev));
+}
+
+function formatRequestDate(timestamp) {
+  try {
+    if (!timestamp || !timestamp.toDate) return "Fecha no disponible";
+    return timestamp.toDate().toLocaleString("es-ES", {
+      dateStyle: "medium",
+      timeStyle: "short"
+    });
+  } catch (error) {
+    return "Fecha no disponible";
+  }
+}
+
+async function renderAdminRequests() {
+  if (!currentUserIsAdmin || !currentUser) {
+    adminPanel.hidden = true;
+    adminRequests.innerHTML = "";
+    adminEmpty.hidden = true;
+    adminEmpty.textContent = "No hay solicitudes pendientes por ahora.";
+    return;
+  }
+
+  adminPanel.hidden = false;
+
+  try {
+    const snapshot = await getDocs(
+      query(collection(db, "publisher_requests"), orderBy("createdAt", "desc"))
+    );
+
+    if (snapshot.empty) {
+      adminRequests.innerHTML = "";
+      adminEmpty.hidden = false;
+      adminEmpty.textContent = "No hay solicitudes pendientes por ahora.";
+      return;
+    }
+
+    adminEmpty.hidden = true;
+    adminRequests.innerHTML = snapshot.docs.map(docSnap => {
+      const req = docSnap.data();
+      return `
+        <article
+          class="admin-request-card"
+          data-request-id="${docSnap.id}"
+          data-request-uid="${req.uid || ""}"
+          data-request-name="${(req.name || "").replace(/"/g, '&quot;')}"
+          data-request-email="${(req.email || "").replace(/"/g, '&quot;')}"
+        >
+          <div class="admin-request-info">
+            <div class="admin-request-name">${req.name || "Usuario sin nombre"}</div>
+            <div class="admin-request-meta">
+              <div><strong>Email:</strong> ${req.email || "No disponible"}</div>
+              <div><strong>UID:</strong> ${req.uid || "No disponible"}</div>
+              <div><strong>Enviada:</strong> ${formatRequestDate(req.createdAt)}</div>
+            </div>
+          </div>
+          <div class="admin-request-actions">
+            <button class="admin-btn approve-request-btn" type="button">Aprobar</button>
+            <button class="admin-btn reject reject-request-btn" type="button">Rechazar</button>
+          </div>
+        </article>
+      `;
+    }).join("");
+
+    adminRequests.querySelectorAll(".approve-request-btn").forEach(btn => {
+      btn.addEventListener("click", async (event) => {
+        const card = event.target.closest(".admin-request-card");
+        if (!card) return;
+        await approvePublisherRequest(
+          card.dataset.requestId,
+          card.dataset.requestUid,
+          card.dataset.requestName,
+          card.dataset.requestEmail
+        );
+      });
+    });
+
+    adminRequests.querySelectorAll(".reject-request-btn").forEach(btn => {
+      btn.addEventListener("click", async (event) => {
+        const card = event.target.closest(".admin-request-card");
+        if (!card) return;
+        await rejectPublisherRequest(
+          card.dataset.requestId,
+          card.dataset.requestName || "esta solicitud"
+        );
+      });
+    });
+
+  } catch (error) {
+    console.error("Error cargando solicitudes admin:", error);
+    adminRequests.innerHTML = "";
+    adminEmpty.hidden = false;
+    adminEmpty.textContent = "No se pudieron cargar las solicitudes.";
+  }
+}
+
+async function approvePublisherRequest(requestId, uid, name, email) {
+  if (!currentUserIsAdmin || !uid) return;
+
+  try {
+    await setDoc(doc(db, "allowed_publishers", uid), {
+      name: name || "Usuario",
+      email: email || ""
+    }, { merge: true });
+
+    await deleteDoc(doc(db, "publisher_requests", requestId));
+    await renderAdminRequests();
+    alert("Publisher aprobado correctamente.");
+  } catch (error) {
+    console.error("Error aprobando solicitud:", error);
+    alert("No se pudo aprobar la solicitud.");
+  }
+}
+
+async function rejectPublisherRequest(requestId, name) {
+  if (!currentUserIsAdmin) return;
+
+  const ok = confirm(`¿Quieres rechazar la solicitud de ${name}?`);
+  if (!ok) return;
+
+  try {
+    await deleteDoc(doc(db, "publisher_requests", requestId));
+    await renderAdminRequests();
+  } catch (error) {
+    console.error("Error rechazando solicitud:", error);
+    alert("No se pudo rechazar la solicitud.");
+  }
+}
+  function renderCards() {
+    const filtered = filterCat === "Todas"
+  ? devotionals
+  : devotionals.filter(d => normalizeCategories(d).includes(filterCat));
+
+    emptyStateEl.hidden = filtered.length !== 0;
+
+    if (!devotionals.length) {
+  cardsGridEl.innerHTML = "";
+  return;
+}
+
+    cardsGridEl.innerHTML = filtered.map(dev => {
+      const categories = normalizeCategories(dev);
+const cs = catStyle(getPrimaryCategory(dev));
+      return `
+  <article class="card" data-id="${dev.id}">
+    <div class="card-top">
+      <div style="display:flex; flex-wrap:wrap; gap:6px;">
+        ${categories.map(category => {
+          const catStyles = catStyle(category);
+          return `<span class="cat-badge" style="background:${catStyles.bg}; color:${catStyles.text}; border-color:${catStyles.border};">${category}</span>`;
+        }).join("")}
+      </div>
+      <div style="display:flex; align-items:center; gap:8px;">
+        ${
+          canManageDevotional(dev)
+            ? `
+              <button class="card-action-btn edit-btn" data-edit-id="${dev.id}" type="button">Editar</button>
+              <button class="card-action-btn delete-btn" data-delete-id="${dev.id}" type="button">Borrar</button>
+            `
+            : ""
+        }
+        <div style="color:#C8A97E; font-size:18px; line-height:1;">✝</div>
+      </div>
+    </div>
+
+          <div class="publisher-row">
+            ${avatarMarkup(dev)}
+            <div class="publisher-info">
+              <div class="publisher-name">${dev.publisher}</div>
+              <div class="publisher-date">${formatDate(dev.date)}</div>
+            </div>
+          </div>
+
+          <h3>${dev.title}</h3>
+          <p class="card-content">${dev.content}</p>
+<div class="card-share-count">🔁 ${formatShareCount(dev.shareCount)}</div>
+        </article>
+      `;
+    }).join("");
+
+    cardsGridEl.querySelectorAll(".card").forEach(card => {
+  card.addEventListener("click", () => {
+    const id = card.dataset.id;
+    const dev = devotionals.find(item => item.id === id);
+    if (dev) openDetail(dev);
+  });
+});
+    cardsGridEl.querySelectorAll(".edit-btn").forEach(btn => {
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const id = btn.dataset.editId;
+        const dev = devotionals.find(item => item.id === id);
+        if (dev) startEdit(dev);
+      });
+    });
+
+    cardsGridEl.querySelectorAll(".delete-btn").forEach(btn => {
+      btn.addEventListener("click", async (e) => {
+        e.stopPropagation();
+        const id = btn.dataset.deleteId;
+        const dev = devotionals.find(item => item.id === id);
+        if (dev) await handleDelete(dev);
+      });
+    });
+  }
+
+
+  function openDetail(dev, updateUrl = true) {
+    const title = document.getElementById("detailTitle");
+    const verse = document.getElementById("detailVerse");
+    const content = document.getElementById("detailContent");
+    const editorPreview = document.getElementById("detailEditorPreview");
+    const publisher = document.getElementById("detailPublisher");
+    const date = document.getElementById("detailDate");
+
+    selectedDevotional = dev;
+    detailShareCount.textContent = `🔁 ${formatShareCount(dev.shareCount)}`;
+    renderDetailBadges(dev);
+
+    title.textContent = dev.title;
+    content.textContent = dev.content;
+
+    if (dev.editorHtml) {
+      editorPreview.innerHTML = dev.editorHtml;
+      editorPreview.style.display = "block";
+    } else {
+      editorPreview.innerHTML = "";
+      editorPreview.style.display = "none";
+    }
+
+    publisher.innerHTML = `
+      ${avatarMarkup(dev, true)}
+      <strong style="color:#5A3E28">${dev.publisher}</strong>
+    `;
+
+    date.textContent = formatDate(dev.date);
+
+    if (dev.verse) {
+      verse.textContent = dev.verse;
+      verse.hidden = false;
+    } else {
+      verse.hidden = true;
+    }
+
+    if (updateUrl) {
+      updateDevotionalUrl(dev);
+    }
+
+    trackAnalyticsEvent("view_item", {
+      currency: "USD",
+      value: 0,
+      items: [{
+        item_id: dev.id,
+        item_name: dev.title,
+        item_category: dev.category || "Devocional"
+      }]
+    });
+
+    detailOverlay.classList.add("show");
+  }
+
+  function closeDetail() {
+  selectedDevotional = null;
+  clearDevotionalUrl();
+  detailOverlay.classList.remove("show");
+}
+
+  function updateUserMenuDirection() {
+    userBox.classList.remove("menu-left", "menu-center", "menu-right", "align-right");
+
+    if (window.innerWidth > 700) {
+      return;
+    }
+
+    const rect = userBox.getBoundingClientRect();
+    const estimatedWidth = Math.min(window.innerWidth * 0.76, 260);
+    const centerLeft = rect.left + (rect.width / 2) - (estimatedWidth / 2);
+    const centerRight = centerLeft + estimatedWidth;
+
+    if (centerLeft < 12) {
+      userBox.classList.add("menu-left");
+      return;
+    }
+
+    if (centerRight > window.innerWidth - 12) {
+      userBox.classList.add("menu-right");
+      return;
+    }
+
+    userBox.classList.add("menu-center");
+  }
+
+  async function loginWithGoogle() {
+    try {
+      await signInWithPopup(auth, provider);
+    } catch (error) {
+      console.error("Error al iniciar sesión:", error);
+      alert("No se pudo iniciar sesión con Google.");
+    }
+  }
+
+  async function logout() {
+    try {
+      await signOut(auth);
+    } catch (error) {
+      console.error("Error al cerrar sesión:", error);
+      alert("No se pudo cerrar sesión.");
+    }
+  }
+
+  function openForm() {
+  if (!currentUser) {
+    authNotice.style.display = "block";
+    loginWithGoogle();
+    return;
+  }
+
+  if (!currentUserIsAdmin && requestAccessBtn.style.display !== "none" && openFormBtn.style.display === "none") {
+    return;
+  }
+
+  resetFormMode();
+  form.reset();
+  resetEditor();
+  setSelectedCategories([]);
+  dateInput.value = todayISO();
+  authNotice.style.display = "none";
+  formOverlay.classList.add("show");
+}
+
+  function closeForm() {
+  formOverlay.classList.remove("show");
+  form.reset();
+  resetEditor();
+  resetFormMode();
+  setSelectedCategories([]);
+  dateInput.value = todayISO();
+  clearSelectedImageWrap();
+  authNotice.style.display = currentUser ? "none" : "block";
+}
+  function startEdit(dev) {
+  if (!canManageDevotional(dev)) return;
+
+  editingDevotionalId = dev.id;
+
+  form.title.value = dev.title || "";
+  form.verse.value = dev.verse || "";
+  form.content.value = dev.content || "";
+  setSelectedCategories(normalizeCategories(dev));
+  dateInput.value = dev.date || todayISO();
+  richEditor.innerHTML = dev.editorHtml || "";
+  clearSelectedImageWrap();
+
+  formTitleEl.textContent = "Editar Devocional";
+  formSubtitleEl.textContent = "Actualiza tu publicación";
+  submitBtn.textContent = "Guardar Cambios";
+
+  formOverlay.classList.add("show");
+}
+
+async function handleDelete(dev) {
+  if (!canManageDevotional(dev)) return;
+
+  const ok = confirm(`¿Quieres borrar "${dev.title}"?`);
+  if (!ok) return;
+
+  try {
+    await deleteDoc(doc(db, "devotionals", dev.id));
+  } catch (error) {
+    console.error("Error borrando en Firestore:", error);
+    alert("No se pudo borrar el devocional.");
+  }
+}
+
+function resetFormMode() {
+  editingDevotionalId = null;
+  formTitleEl.textContent = "Nuevo Devocional";
+  formSubtitleEl.textContent = "Comparte la Palabra con la comunidad";
+  submitBtn.textContent = "Publicar Devocional";
+}
+
+  function fillCategorySelect() {
+  categoryCheckboxes.innerHTML = CATEGORIES.map(c => `
+    <label class="category-check">
+      <input type="checkbox" value="${c}" />
+      <span>${c}</span>
+    </label>
+  `).join("");
+}
+
+  function listenDevotionals() {
+    const q = query(collection(db, "devotionals"), orderBy("createdAt", "desc"));
+
+    onSnapshot(q, (snapshot) => {
+      devotionals = snapshot.docs.map(doc => {
+        const data = doc.data();
+        return {
+  id: doc.id,
+  title: data.title || "",
+  verse: data.verse || "",
+  content: data.content || "",
+  editorHtml: data.editorHtml || "",
+  publisher: data.publisher || "Comunidad Diario Cristiano",
+  publisherPhoto: data.publisherPhoto || "",
+  publisherUid: data.publisherUid || data.uid || "",
+  category: data.category || "Fe",
+  categories: Array.isArray(data.categories) && data.categories.length ? data.categories : (data.category ? [data.category] : ["Fe"]),
+  date: data.date || todayISO(),
+  shareCount: Number(data.shareCount || 0)
+};
+      });
+
+      renderCards();
+      openDevotionalFromUrl();
+    }, (error) => {
+      console.error("Error leyendo Firestore:", error);
+      cardsGridEl.innerHTML = `<div class="loading-note">No se pudieron cargar los devocionales.</div>`;
+      emptyStateEl.hidden = true;
+    });
+  }
+
+  editorButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      if (btn.dataset.color) {
+        applyTextColor(btn.dataset.color);
+        return;
+      }
+
+      const command = btn.dataset.command;
+      const value = btn.dataset.value || null;
+      richEditor.focus();
+      document.execCommand(command, false, value);
+      syncEditorButtons();
+    });
+  });
+
+  if (formatSelect) {
+    formatSelect.addEventListener("change", () => {
+      applyBlockFormat(formatSelect.value);
+    });
+  }
+
+  if (insertVerseBtn) {
+    insertVerseBtn.addEventListener("click", insertVerseTemplate);
+  }
+  if (insertImageBtn) {
+  insertImageBtn.addEventListener("click", insertImageTemplate);
+}
+if (imageUploadInput) {
+  imageUploadInput.addEventListener("change", (event) => {
+    const file = event.target.files && event.target.files[0];
+    if (file) {
+      insertUploadedImage(file);
+    }
+  });
+}
+if (imageUploadInput) {
+  imageUploadInput.addEventListener("click", () => {
+    saveEditorSelection();
+  });
+}
+
+richEditor.addEventListener("click", (event) => {
+  const imageWrap = event.target.closest(".editor-image-wrap");
+  if (imageWrap && richEditor.contains(imageWrap)) {
+    event.preventDefault();
+    selectImageWrap(imageWrap);
+    return;
+  }
+  clearSelectedImageWrap();
+  saveEditorSelection();
+});
+
+richEditor.addEventListener("keydown", (event) => {
+  const isUndoRedoShortcut =
+    (event.ctrlKey || event.metaKey) && ["z", "Z", "y", "Y"].includes(event.key);
+
+  if (isUndoRedoShortcut) {
+    return;
+  }
+
+  if (!event.ctrlKey && !event.metaKey && (event.key === "Backspace" || event.key === "Delete") && removeSelectedImageWrap()) {
+    event.preventDefault();
+    return;
+  }
+});
+
+richEditor.addEventListener("input", () => {
+  saveEditorSelection();
+  clearSelectedImageWrap();
+  syncEditorButtons();
+});
+
+  richEditor.addEventListener("keyup", () => {
+    saveEditorSelection();
+    syncEditorButtons();
+  });
+  richEditor.addEventListener("mouseup", () => {
+    saveEditorSelection();
+    syncEditorButtons();
+  });
+  richEditor.addEventListener("focus", syncEditorButtons);
+
+  document.getElementById("openFormBtn").addEventListener("click", openForm);
+  document.getElementById("closeFormBtn").addEventListener("click", closeForm);
+  document.getElementById("closeDetailBtn").addEventListener("click", closeDetail);
+  loginBtn.addEventListener("click", loginWithGoogle);
+  userName.addEventListener("click", (event) => {
+    if (window.innerWidth <= 700) {
+      event.stopPropagation();
+    }
+  });
+  logoutBtn.addEventListener("click", logout);
+  shareEmailBtn.addEventListener("click", shareSelectedByEmail);
+shareWhatsAppBtn.addEventListener("click", shareSelectedByWhatsApp);
+copyLinkBtn.addEventListener("click", copySelectedLink);
+
+  userBox.addEventListener("click", (event) => {
+    if (window.innerWidth > 700) return;
+    event.stopPropagation();
+    updateUserMenuDirection();
+    userBox.classList.toggle("open");
+  });
+
+logoutBtn.addEventListener("click", (event) => {
+  if (window.innerWidth <= 700) {
+    event.stopPropagation();
+    userBox.classList.remove("open");
+    userBox.classList.remove("menu-left", "menu-center", "menu-right", "align-right");
+  }
+});
+
+document.addEventListener("click", () => {
+  userBox.classList.remove("open");
+});
+
+  window.addEventListener("resize", () => {
+    if (window.innerWidth > 700) {
+      userBox.classList.remove("open");
+      userBox.classList.remove("menu-left", "menu-center", "menu-right", "align-right");
+      return;
+    }
+
+    updateUserMenuDirection();
+  });
+  requestAccessBtn.addEventListener("click", async () => {
+  if (!currentUser) return;
+
+  try {
+    await addDoc(collection(db, "publisher_requests"), {
+      uid: currentUser.uid,
+      name: currentUser.displayName || "",
+      email: currentUser.email || "",
+      createdAt: serverTimestamp()
+    });
+
+    alert("Solicitud enviada. Un administrador la revisará.");
+    requestAccessBtn.textContent = "Solicitud enviada";
+    requestAccessBtn.disabled = true;
+    requestAccessBtn.style.opacity = "0.6";
+
+  } catch (error) {
+    console.error("Error enviando solicitud:", error);
+    alert("No se pudo enviar la solicitud.");
+  }
+});
+
+  detailOverlay.addEventListener("click", (e) => {
+    if (e.target === detailOverlay) closeDetail();
+  });
+
+  formOverlay.addEventListener("click", (e) => {
+    if (e.target === formOverlay) closeForm();
+  });
+
+  form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  try {
+    await pendingUploadPromise;
+  } catch (error) {
+    console.error("Error esperando imágenes pendientes:", error);
+  }
+
+  if (!currentUser) {
+    authNotice.style.display = "block";
+    alert("Debes iniciar sesión para publicar.");
+    return;
+  }
+
+  const data = new FormData(form);
+
+  const selectedCategories = getSelectedCategoriesFromForm();
+
+const payload = {
+  title: String(data.get("title") || "").trim(),
+  verse: String(data.get("verse") || "").trim(),
+  content: String(data.get("content") || "").trim(),
+  editorHtml: getEditorHTML(),
+  publisher: currentUser.displayName || currentUser.email || "Usuario",
+  publisherPhoto: currentUser.photoURL || "",
+  publisherUid: currentUser.uid,
+  category: selectedCategories[0] || CATEGORIES[0],
+  categories: selectedCategories,
+  date: String(data.get("date") || todayISO()).trim()
+};
+
+  if (!payload.title || !payload.content || !payload.categories.length) {
+  alert("Completa al menos el título, la reflexión y una categoría.");
+  return;
+}
+
+  try {
+    if (editingDevotionalId) {
+      await updateDoc(doc(db, "devotionals", editingDevotionalId), payload);
+    } else {
+      await addDoc(collection(db, "devotionals"), {
+  ...payload,
+  shareCount: 0,
+  createdAt: serverTimestamp()
+});
+    }
+
+    closeForm();
+  } catch (error) {
+    console.error("Error guardando en Firestore:", error);
+    alert("No se pudo guardar el devocional.");
+  }
+});
+
+  onAuthStateChanged(auth, async (user) => {
+  await updateAuthUI(user);
+
+  if (user) {
+    console.log("UID:", user.uid);
+    console.log("Email:", user.email);
+    console.log("Nombre:", user.displayName);
+  }
+});
+
+  fillCategorySelect();
+  dateInput.value = todayISO();
+  renderFilters();
+  listenDevotionals();
+</script>
+</body>
+</html>                                                                                                                                                                                                                                      
