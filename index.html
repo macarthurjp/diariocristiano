@@ -4,6 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Diario Cristiano</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="./favicon.png?v=2">
+  <link rel="icon" type="image/png" sizes="16x16" href="./favicon.png?v=2">
+  <link rel="apple-touch-icon" sizes="180x180" href="./favicon.png?v=2">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;600&display=swap" rel="stylesheet">
@@ -1244,7 +1247,7 @@
   <div class="app">
     <header class="header">
       <div class="header-inner">
-        <div class="brand">
+        <a href="#" class="brand" style="text-decoration:none; color:inherit;">
           <div style="color:#C8A97E">
             <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
               <rect x="11" y="2" width="6" height="24" rx="2" fill="currentColor"></rect>
@@ -1255,7 +1258,7 @@
             <h1>Diario Cristiano</h1>
             <p>Devocionales Diarios</p>
           </div>
-        </div>
+        </a>
         <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap; justify-content:flex-end;">
   <div id="userBox" class="user-pill" tabindex="0">
   <img id="userAvatar" alt="Foto del publisher"
@@ -2706,6 +2709,11 @@ richEditor.addEventListener("input", () => {
   document.getElementById("closeFormBtn").addEventListener("click", closeForm);
   document.getElementById("closeDetailBtn").addEventListener("click", closeDetail);
   loginBtn.addEventListener("click", loginWithGoogle);
+
+  document.querySelector('.brand')?.addEventListener('click', function(e) {
+    e.preventDefault();
+    window.location.href = window.location.origin + window.location.pathname;
+  });
   userName.addEventListener("click", (event) => {
     if (window.innerWidth <= 700) {
       event.stopPropagation();
