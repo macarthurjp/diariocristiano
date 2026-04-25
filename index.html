@@ -882,6 +882,39 @@
   font-family: 'Lato', sans-serif;
   color: #9C8872;
 }
+
+.admin-settings-card {
+  margin-top: 18px;
+  padding: 18px;
+  border: 1px solid #E8D9C4;
+  border-radius: 18px;
+  background: #FFFDF9;
+}
+
+.admin-settings-card h4 {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  color: #2D1B0E;
+  margin-bottom: 8px;
+}
+
+.admin-settings-card p {
+  font-family: 'Lato', sans-serif;
+  font-size: 13px;
+  color: #9C8872;
+  line-height: 1.6;
+  margin-bottom: 14px;
+}
+
+.admin-settings-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+
+.admin-settings-save {
+  margin-top: 14px;
+}
 .share-panel {
   margin: 0 0 24px;
   padding: 16px;
@@ -1248,6 +1281,41 @@
       <section id="adminPanel" class="admin-panel" hidden>
   <h3>Panel Admin</h3>
   <p>Revisa las solicitudes de acceso y aprueba nuevos publishers sin salir del sitio.</p>
+
+  <div class="admin-settings-card">
+    <h4>Texto principal del sitio</h4>
+    <p>Edita el título, descripción y etiquetas que aparecen arriba en la página principal.</p>
+    <div class="admin-settings-grid">
+      <div>
+        <label for="heroTitleInput">Título principal</label>
+        <input id="heroTitleInput" type="text" placeholder="La Palabra para Tu Día" />
+      </div>
+      <div>
+        <label for="heroDescInput">Descripción</label>
+        <textarea id="heroDescInput" rows="3" placeholder="Alimenta tu alma con reflexiones bíblicas..."></textarea>
+      </div>
+      <div>
+        <label for="heroModeSelect">Modo del texto principal</label>
+        <select id="heroModeSelect">
+          <option value="manual">Manual</option>
+          <option value="daily">Automático diario</option>
+        </select>
+      </div>
+      <div>
+        <label for="heroTagsInput">Etiquetas separadas por coma</label>
+        <input id="heroTagsInput" type="text" placeholder="Reflexiones diarias, Palabra y oración, Inspiración para tu fe" />
+      </div>
+      <div>
+        <label for="heroDailyInput">Textos automáticos diarios</label>
+        <textarea id="heroDailyInput" rows="7" placeholder="Un texto por línea. Formato: Título | Descripción | etiqueta 1, etiqueta 2"></textarea>
+        <p style="margin-top:8px; margin-bottom:0; font-size:12px;">
+          Ejemplo: Confía en el Señor | Hoy recuerda que Dios guía tus pasos. | Fe, Esperanza
+        </p>
+      </div>
+    </div>
+    <button class="admin-btn admin-settings-save" id="saveHeroSettingsBtn" type="button">Guardar texto principal</button>
+  </div>
+
   <div id="adminRequests" class="admin-requests"></div>
   <div id="adminEmpty" class="admin-empty" hidden>No hay solicitudes pendientes por ahora.</div>
 </section>
@@ -1257,9 +1325,9 @@
 
       <section class="hero">
         <p class="ornament">✦ ✦ ✦</p>
-        <h2>La Palabra para Tu Día</h2>
-        <p class="desc">Alimenta tu alma con reflexiones bíblicas que iluminan el camino cada mañana.</p>
-        <div class="hero-tags">
+        <h2 id="heroTitle">La Palabra para Tu Día</h2>
+        <p class="desc" id="heroDesc">Alimenta tu alma con reflexiones bíblicas que iluminan el camino cada mañana.</p>
+        <div class="hero-tags" id="heroTags">
           <span class="hero-tag">Reflexiones diarias</span>
           <span class="hero-tag">Palabra y oración</span>
           <span class="hero-tag">Inspiración para tu fe</span>
@@ -1528,7 +1596,16 @@ const detailBadgeGroup = document.getElementById("detailBadgeGroup");
   const shareEmailBtn = document.getElementById("shareEmailBtn");
 const shareWhatsAppBtn = document.getElementById("shareWhatsAppBtn");
 const copyLinkBtn = document.getElementById("copyLinkBtn");
-const detailShareCount = document.getElementById("detailShareCount");
+  const detailShareCount = document.getElementById("detailShareCount");
+const heroTitle = document.getElementById("heroTitle");
+const heroDesc = document.getElementById("heroDesc");
+const heroTags = document.getElementById("heroTags");
+const heroTitleInput = document.getElementById("heroTitleInput");
+const heroDescInput = document.getElementById("heroDescInput");
+const heroTagsInput = document.getElementById("heroTagsInput");
+const heroModeSelect = document.getElementById("heroModeSelect");
+const heroDailyInput = document.getElementById("heroDailyInput");
+const saveHeroSettingsBtn = document.getElementById("saveHeroSettingsBtn");
 
   function todayISO() {
     return new Date().toISOString().split("T")[0];
@@ -1582,6 +1659,167 @@ function trackAnalyticsEvent(eventName, params = {}) {
     logEvent(analyticsInstance, eventName, params);
   } catch (error) {
     console.error(`No se pudo registrar el evento ${eventName}:`, error);
+  }
+}
+
+function defaultHeroSettings() {
+  return {
+    mode: "manual",
+    title: "La Palabra para Tu Día",
+    desc: "Alimenta tu alma con reflexiones bíblicas que iluminan el camino cada mañana.",
+    tags: ["Reflexiones diarias", "Palabra y oración", "Inspiración para tu fe"],
+    dailyItems: [
+      {
+        title: "Confía en el Señor",
+        desc: "Hoy recuerda que Dios guía tus pasos aun cuando no ves todo el camino.",
+        tags: ["Fe", "Esperanza"]
+      },
+      {
+        title: "Gracia para Hoy",
+        desc: "La misericordia de Dios se renueva esta mañana. Recíbela con un corazón agradecido.",
+        tags: ["Gracia", "Oración"]
+      },
+      {
+        title: "Camina en Amor",
+        desc: "Cada gesto de amor refleja la luz de Cristo en medio de tu día.",
+        tags: ["Amor", "Sabiduría"]
+      },
+      {
+        title: "Paz en la Tormenta",
+        desc: "Dios no siempre quita la tormenta, pero promete estar contigo dentro de ella.",
+        tags: ["Esperanza", "Fe"]
+      },
+      {
+        title: "Busca su Presencia",
+        desc: "Antes de correr al día, detente un momento y entrega tu corazón en oración.",
+        tags: ["Oración", "Gracia"]
+      }
+    ]
+  };
+}
+
+function getDayOfYear() {
+  const now = new Date();
+  const start = new Date(now.getFullYear(), 0, 0);
+  const diff = now - start;
+  const oneDay = 1000 * 60 * 60 * 24;
+  return Math.floor(diff / oneDay);
+}
+
+function parseDailyHeroItems(text) {
+  return String(text || "")
+    .split("\n")
+    .map(line => line.trim())
+    .filter(Boolean)
+    .map(line => {
+      const [title = "", desc = "", tagsText = ""] = line.split("|").map(part => part.trim());
+      return {
+        title,
+        desc,
+        tags: tagsText.split(",").map(tag => tag.trim()).filter(Boolean)
+      };
+    })
+    .filter(item => item.title && item.desc);
+}
+
+function formatDailyHeroItems(items) {
+  return (Array.isArray(items) ? items : [])
+    .map(item => `${item.title || ""} | ${item.desc || ""} | ${(Array.isArray(item.tags) ? item.tags : []).join(", ")}`)
+    .join("\n");
+}
+
+function resolveHeroSettings(settings) {
+  const fallback = defaultHeroSettings();
+  const data = settings || fallback;
+  const mode = data.mode || "manual";
+
+  if (mode === "daily") {
+    const items = Array.isArray(data.dailyItems) && data.dailyItems.length ? data.dailyItems : fallback.dailyItems;
+    const index = getDayOfYear() % items.length;
+    const daily = items[index] || items[0] || fallback;
+    return {
+      mode,
+      title: daily.title || fallback.title,
+      desc: daily.desc || fallback.desc,
+      tags: Array.isArray(daily.tags) && daily.tags.length ? daily.tags : fallback.tags,
+      dailyItems: items
+    };
+  }
+
+  return {
+    mode,
+    title: data.title || fallback.title,
+    desc: data.desc || fallback.desc,
+    tags: Array.isArray(data.tags) && data.tags.length ? data.tags : fallback.tags,
+    dailyItems: Array.isArray(data.dailyItems) && data.dailyItems.length ? data.dailyItems : fallback.dailyItems
+  };
+}
+
+function applyHeroSettings(settings) {
+  const fallback = defaultHeroSettings();
+  const data = settings || fallback;
+  const resolved = resolveHeroSettings(data);
+  const manualTags = Array.isArray(data.tags) && data.tags.length ? data.tags : fallback.tags;
+  const dailyItems = Array.isArray(data.dailyItems) && data.dailyItems.length ? data.dailyItems : fallback.dailyItems;
+
+  heroTitle.textContent = resolved.title;
+  heroDesc.textContent = resolved.desc;
+  heroTags.innerHTML = resolved.tags.map(tag => `<span class="hero-tag">${String(tag).trim()}</span>`).join("");
+
+  if (heroModeSelect) heroModeSelect.value = data.mode || "manual";
+  if (heroTitleInput) heroTitleInput.value = data.title || fallback.title;
+  if (heroDescInput) heroDescInput.value = data.desc || fallback.desc;
+  if (heroTagsInput) heroTagsInput.value = manualTags.join(", ");
+  if (heroDailyInput) heroDailyInput.value = formatDailyHeroItems(dailyItems);
+
+  const usingDaily = (data.mode || "manual") === "daily";
+  if (heroTitleInput) heroTitleInput.disabled = usingDaily;
+  if (heroDescInput) heroDescInput.disabled = usingDaily;
+  if (heroTagsInput) heroTagsInput.disabled = usingDaily;
+}
+
+async function loadHeroSettings() {
+  try {
+    const snap = await getDoc(doc(db, "site_settings", "home"));
+    if (snap.exists()) {
+      applyHeroSettings(snap.data());
+    } else {
+      applyHeroSettings(defaultHeroSettings());
+    }
+  } catch (error) {
+    console.error("Error cargando texto principal:", error);
+    applyHeroSettings(defaultHeroSettings());
+  }
+}
+
+async function saveHeroSettings() {
+  if (!currentUserIsAdmin) return;
+
+  const tags = String(heroTagsInput.value || "")
+    .split(",")
+    .map(tag => tag.trim())
+    .filter(Boolean);
+
+  const dailyItems = parseDailyHeroItems(heroDailyInput.value);
+  const fallback = defaultHeroSettings();
+
+  const settings = {
+    mode: heroModeSelect ? heroModeSelect.value : "manual",
+    title: String(heroTitleInput.value || "").trim() || fallback.title,
+    desc: String(heroDescInput.value || "").trim() || fallback.desc,
+    tags: tags.length ? tags : fallback.tags,
+    dailyItems: dailyItems.length ? dailyItems : fallback.dailyItems,
+    updatedAt: serverTimestamp(),
+    updatedBy: currentUser ? currentUser.uid : ""
+  };
+
+  try {
+    await setDoc(doc(db, "site_settings", "home"), settings, { merge: true });
+    applyHeroSettings(settings);
+    alert(settings.mode === "daily" ? "Texto automático diario actualizado." : "Texto principal manual actualizado.");
+  } catch (error) {
+    console.error("Error guardando texto principal:", error);
+    alert("No se pudo guardar el texto principal.");
   }
 }
 
@@ -2478,6 +2716,18 @@ richEditor.addEventListener("input", () => {
 shareWhatsAppBtn.addEventListener("click", shareSelectedByWhatsApp);
 copyLinkBtn.addEventListener("click", copySelectedLink);
 
+if (saveHeroSettingsBtn) {
+  saveHeroSettingsBtn.addEventListener("click", saveHeroSettings);
+}
+if (heroModeSelect) {
+  heroModeSelect.addEventListener("change", () => {
+    const usingDaily = heroModeSelect.value === "daily";
+    heroTitleInput.disabled = usingDaily;
+    heroDescInput.disabled = usingDaily;
+    heroTagsInput.disabled = usingDaily;
+  });
+}
+
   userBox.addEventListener("click", (event) => {
     if (window.innerWidth > 700) return;
     event.stopPropagation();
@@ -2601,10 +2851,11 @@ const payload = {
   }
 });
 
-  fillCategorySelect();
-  dateInput.value = todayISO();
-  renderFilters();
-  listenDevotionals();
+fillCategorySelect();
+dateInput.value = todayISO();
+renderFilters();
+loadHeroSettings();
+listenDevotionals();
 </script>
 </body>
 </html>                                                                                                                                                                                                                                      
