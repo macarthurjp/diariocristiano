@@ -684,6 +684,38 @@
       letter-spacing: 0.08em;
     }
 
+    .footer-credit {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 12px;
+      padding: 7px 12px;
+      border: 1px solid rgba(200, 169, 126, 0.42);
+      border-radius: 999px;
+      background: rgba(255, 249, 242, 0.65);
+      font-family: 'Lato', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      color: #8E5A28;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      box-shadow: 0 8px 20px rgba(139, 90, 43, 0.06);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+
+    .footer-credit:hover {
+      transform: translateY(-1px);
+      border-color: rgba(200, 169, 126, 0.8);
+      box-shadow: 0 12px 24px rgba(139, 90, 43, 0.1);
+    }
+
+    .footer-credit .spark {
+      color: #C8A97E;
+      font-size: 12px;
+      line-height: 1;
+    }
+
     .publish-btn.secondary {
   background: linear-gradient(180deg, #8E5A28 0%, #7C4A1B 100%);
   color: #fff;
@@ -1369,9 +1401,15 @@
     </div>
 
     <footer class="footer">
-      <div style="color:#C8A97E; margin-bottom:8px;">✦ ✝ ✦</div>
-      <p>DIARIO CRISTIANO · DEVOCIONALES DIARIOS</p>
-    </footer>
+  <div style="color:#C8A97E; margin-bottom:8px;">✦ ✝ ✦</div>
+  <p>DIARIO CRISTIANO · DEVOCIONALES DIARIOS</p>
+
+  <div class="footer-credit" aria-label="Crafted by ArthurNoLimit">
+    <span class="spark">✦</span>
+    <span>Crafted by ArthurNoLimit</span>
+    <span class="spark">✦</span>
+  </div>
+</footer>
   </div>
 
   <script type="module">
